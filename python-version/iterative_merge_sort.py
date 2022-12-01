@@ -44,3 +44,13 @@ def iterative_merge_sort(array):
     subarray_size = pow(2, current_power) # Move on to next power of 2.
     index = 0
   return array
+
+# code demonstration below
+array_8 = [8,2,7,4,9,1,3,0]
+print(iterative_merge_sort(array_8)) # [0, 1, 2, 3, 4, 7, 8, 9]
+array_1 = [8]
+print(iterative_merge_sort(array_1)) # [8]
+array_16_mirrored = [8,2,7,4,9,1,3,0,8,2,7,4,9,1,3,0]
+print(iterative_merge_sort(array_16_mirrored)) # [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 7, 7, 8, 8, 9, 9]
+array_4 = [8, 2, 7, 4]
+print(iterative_merge_sort(array_4)) # [2, 4, 7, 8]

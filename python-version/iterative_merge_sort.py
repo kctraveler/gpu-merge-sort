@@ -1,6 +1,8 @@
 import random
 import time
+import numba
 
+@numba.jit
 def merge(first, second):
   """Merges two sorted arrays into a single, also sorted array. The function 
   assumes that the two input arrays are sorted and does not attempt to verify so.
@@ -28,6 +30,7 @@ def merge(first, second):
     m += 1                              # Advance index in merged array
   return merged                         # Return merged array
 
+@numba.jit
 def iterative_merge_sort(array):
   """Iterative implementation of merge sort. 
   
@@ -49,7 +52,7 @@ def iterative_merge_sort(array):
   return array
 
 # code demonstration below
-test_array = [random.randint(0, 32768) for _ in range(32768)]
+test_array = [random.randint(0, 4194304) for _ in range(4194304)]
 start = time.time()
 iterative_merge_sort(test_array)
 total_time = time.time() - start

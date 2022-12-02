@@ -1,3 +1,6 @@
+import random
+import time
+
 def merge(first, second):
   """Merges two sorted arrays into a single, also sorted array. The function 
   assumes that the two input arrays are sorted and does not attempt to verify so.
@@ -46,11 +49,8 @@ def iterative_merge_sort(array):
   return array
 
 # code demonstration below
-array_8 = [8,2,7,4,9,1,3,0]
-print(iterative_merge_sort(array_8)) # [0, 1, 2, 3, 4, 7, 8, 9]
-array_1 = [8]
-print(iterative_merge_sort(array_1)) # [8]
-array_16_mirrored = [8,2,7,4,9,1,3,0,8,2,7,4,9,1,3,0]
-print(iterative_merge_sort(array_16_mirrored)) # [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 7, 7, 8, 8, 9, 9]
-array_4 = [8, 2, 7, 4]
-print(iterative_merge_sort(array_4)) # [2, 4, 7, 8]
+test_array = [random.randint(0, 32768) for _ in range(32768)]
+start = time.time()
+iterative_merge_sort(test_array)
+total_time = time.time() - start
+print(total_time, "seconds")

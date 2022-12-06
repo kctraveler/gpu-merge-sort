@@ -1,3 +1,8 @@
+import random
+import time
+import numba
+from numba import cuda
+
 def merge(first, second):
   """Merges two sorted arrays into a single, also sorted array. The function 
   assumes that the two input arrays are sorted and does not attempt to verify so.
@@ -44,3 +49,10 @@ def iterative_merge_sort(array):
     subarray_size = pow(2, current_power) # Move on to next power of 2.
     index = 0
   return array
+
+# code demonstration below
+test_array = [random.randint(0, 4194304) for _ in range(4194304)]
+start = time.time()
+iterative_merge_sort(test_array)
+total_time = time.time() - start
+print(total_time, "seconds")

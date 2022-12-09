@@ -52,7 +52,7 @@ def iterative_merge_sort(array):
   return array
 
 # code demonstration below
-test_array = [random.randint(0, 4194304) for _ in range(4194304)]
+test_array = [random.randint(0, 1000) for _ in range(4194304)]
 start = time.time()
 iterative_merge_sort(test_array)
 total_time = time.time() - start

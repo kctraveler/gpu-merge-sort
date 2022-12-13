@@ -10,22 +10,49 @@
 #include <stdlib.h>
 #include <Windows.h>
 
+// Must be run on Windows.
 
-// Must be run on Windows
 
-int main(void)
+int main(int argc, char* argv[])
 {
+
+    int N = 10000;
+    bool runHost = false;
+
+    for (int i = 1; i < argc;)
+    {
+#define check_index(i, str)                                    \
+    if ((i) >= argc)                                           \
+    {                                                          \
+        fprintf(stderr, "Missing 2nd argument for %s\n", str); \
+    }
+
+        std::string key(argv[i++]);
+
+        if (key == "-n" || key == "--npoints")
+        {
+            check_index(i, "-n");
+            if (isdigit(*argv[i]))
+                N = atoi(argv[i]);
+            i++;
+        }
+        else if (key == "--host" || key == "-h")
+        {
+            runHost = true;
+        }
+        else
+        {
+            fprintf(stderr, "Unknown option %s\n", key.c_str());
+        }
+    }
+    
     LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds;
     LARGE_INTEGER Frequency;
-
-    // Set N For Each Test here
-    int N = 50000000;
-    bool runHost = true;
-
+    
     std::string hostResult;
     if (runHost) {
         // Run on the Host Serially
-        thrust::host_vector<int> h_vec(N);
+        thrust::host_vector<double> h_vec(N);
         thrust::generate(h_vec.begin(), h_vec.end(), rand);
 
         QueryPerformanceFrequency(&Frequency);
@@ -45,17 +72,16 @@ int main(void)
     }
     // GPU VERSION
 
-    thrust::host_vector<int> h_vec2(N);
-
+    thrust::host_vector<double> h_vec2(N);
+    thrust::generate(h_vec2.begin(), h_vec2.end(), rand);
     LARGE_INTEGER StartingTime2, EndingTime2, ElapsedMicroseconds2;
     LARGE_INTEGER Frequency2;
     QueryPerformanceFrequency(&Frequency2);
     QueryPerformanceCounter(&StartingTime2);
 
     // transfer data to the device
-    thrust::device_vector<int> d_vec = h_vec2;
-    thrust::generate(h_vec2.begin(), h_vec2.end(), rand);
-
+    thrust::device_vector<double> d_vec = h_vec2;
+    
     // use thrust to sort the device array.
     thrust::sort(d_vec.begin(), d_vec.end());
   

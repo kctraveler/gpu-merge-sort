@@ -1,6 +1,10 @@
 #include <iostream>
 #include <math.h>
+#include <Windows.h>
+#include <string>
 using namespace std;
+
+// Must run on windows
 
 void merge(double array[], int const left, int const mid, int const right)
 {
@@ -8,8 +12,8 @@ void merge(double array[], int const left, int const mid, int const right)
     int const rightArrSize = right - mid;
 
     // Create temporary arrays.
-    double *leftArr = new double[leftArrSize],
-           *rightArr = new double[rightArrSize];
+    double* leftArr = new double[leftArrSize],
+        * rightArr = new double[rightArrSize];
 
     // Copy data to temporary arrays
     for (int i = 0; i < leftArrSize; i++)
@@ -80,9 +84,10 @@ void generateArray(double array[], int size)
 }
 
 // Driver Code
-int main(int argc, char *argv[])
+int main2(int argc, char* argv[])
 {
-    int size = 100;
+    int size = 16777216
+        ;
     bool write_solution = false;
 
     // Check parameters
@@ -113,8 +118,8 @@ int main(int argc, char *argv[])
         }
     }
 
-    // TODO increase array size / prompt for array size
-    double *arr = new double[size];
+
+    double* arr = new double[size];
     generateArray(arr, size);
     if (write_solution)
     {
@@ -122,7 +127,20 @@ int main(int argc, char *argv[])
         cout << size << "\nArray Contents:\n";
         printArray(arr, size);
     }
+
+    LARGE_INTEGER StartingTime2, EndingTime2, ElapsedMicroseconds2;
+    LARGE_INTEGER Frequency2;
+    QueryPerformanceFrequency(&Frequency2);
+    QueryPerformanceCounter(&StartingTime2);
+
     mergeSort(arr, 0, size - 1);
+
+    QueryPerformanceCounter(&EndingTime2);
+    ElapsedMicroseconds2.QuadPart = EndingTime2.QuadPart - StartingTime2.QuadPart;
+    ElapsedMicroseconds2.QuadPart *= 1000000;
+    ElapsedMicroseconds2.QuadPart /= Frequency2.QuadPart;
+
+    std::string result = "The elapsed time for merge sort was " + std::to_string(ElapsedMicroseconds2.QuadPart) + " Microseconds.\n";
     if (write_solution)
     {
         cout << "\nSorted array is size:\t";
@@ -130,5 +148,7 @@ int main(int argc, char *argv[])
         printArray(arr, size);
         cout << "\n";
     }
+
+    cout << result;
     return 0;
 }
